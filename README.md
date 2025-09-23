@@ -25,6 +25,7 @@ ctftx, TryHackMe platformunda Capture The Flag işlemlerinizi hızlandırmak iç
 ```bash
 git clone https://github.com/crptx1337/ctftx.git
 cd ctftx
+chmod +x install.sh
 ./install.sh
 ```
 <hr>
@@ -37,6 +38,7 @@ cd ctftx
 
 ### Scripti Çalıştırmak İçin
 ```bash
+chmod +x ctftx.sh
 ./ctftx.sh
 ```
 
