@@ -249,7 +249,7 @@ Yapmak İstediğiniz İşlemi Seçin:
 
 EOF
 
-        read -rp "Yapmak İstediğiniz İşlemi Seçin: " secim5
+        read -rp "Seçiminiz: " secim5
         case $secim5 in
         1)
         read -rp "Dinlemek İstediğiniz Port Numarası: " target
@@ -285,21 +285,59 @@ EOF
 }
 
 
+brute_force_menu(){
+clear
+echo -e "${GREEN}Brute-Force Menüsü ${RESET}"
+echo -e "-----------------------------------"
+while true; do
+cat<<-EOF
+Yapmak İstediğiniz İşlemi Seçin:
+1)FTP Password Brute-Force
+2)SSH Password Brute-Force
+3)Geri(exit)
+EOF
+
+read -rp "Seçiminiz: " secim6
+case $secim6 in
+1)
+read -rp "Hedef IP/Domain: " target
+read -rp "Kullanıcı Adı: " username
+hydra -l "$username" -P /usr/share/wordlists/rockyou.txt ftp://"${target}" -t 4
+;;
+
+2)
+read -rp "Hedef IP: " target
+read -rp "Kullanıcı Adı: " username2
+hydra -l "$username2" -P /usr/share/wordlists/rockyou.txt ssh://"${target}" -t 4
+;;
+3)
+echo -e "${YELLOW} Ana Menüye Dönülüyor...${RESET}"; 
+clear
+break
+;;
+*)echo -e "${RED}Geçersiz seçim! Lütfen geçerli bir seçenek girin.${RESET}"
+;;
+esac
+pause
+done    
+}   
+
 
 #Ana Menü
 main_menu (){  
-echo -e "${BLUE}Ctftx'e Hoş Geldin. ${RESET}"
+echo -e "${BLUE}Ctftx'e Hoş Geldiniz. 
+${RESET}"
 
 
 echo -e "${YELLOW}Yapmak İstediğiniz İşlemi Seçin: ${RESET}"
 while true; do
 cat<<-EOF
-
 1)Nmap Tarama Menüsü
 2)Gobuster Gizli Dizin Bulma Menüsü
 3)Web Fuzz Menüsü
-4)Ek Araçlar Menüsü
-5)Çıkış(exit)
+4)Brute-Force Menüsü
+5)Ek Araçlar Menüsü
+6)Çıkış(exit)
 
 EOF
 
@@ -314,12 +352,15 @@ case $secim in
 3)read -rp "Hedef IP/Domain: " target
     ffuf_menu "$target" ;;
 
-4) ek_araclar 
+4)brute_force_menu
 
 ;;
-    
 
-5)echo -e "${RED}Çıkış Yapılıyor...${RESET}"; 
+5)ek_araclar
+
+;;
+
+6)echo -e "${RED}Çıkış Yapılıyor...${RESET}"; 
     exit 0 ;;
 
 *)echo -e "${RED}Geçersiz seçim! Lütfen geçerli bir seçenek girin.${RESET}" 

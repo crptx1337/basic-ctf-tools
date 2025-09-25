@@ -41,6 +41,10 @@ if ! command -v netcat >/dev/null 2>&1; then
     sudo apt install netcat-traditional -y
 fi
 
+if ! command -v hydra >/dev/null 2>&1; then
+    sudo apt install hydra -y
+fi
+
 echo -e "${MAGNET}Tüm Bağımlılıklar Yüklendi!${RESET}"
     
 
